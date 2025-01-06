@@ -6,17 +6,21 @@ export function App() {
     const username = 'oscar_varela'
 
     return (
-        <article>
-            <header>
-                <img src={profileImageUrl} alt="profile image" />
-                <div>
+        <article className='tw-followCard'>
+            <header className='tw-followCard-header'>
+                <img 
+                    className='tw-followCard-avatar'
+                    src={profileImageUrl} 
+                    alt="profile image" 
+                />
+                <div className='tw-followCard-info'>
                     <strong>{name}</strong>
-                    <span>@{username}</span>
+                    <span className='tw-followCard-infoUserName'>@{username}</span>
                 </div>
             </header>
 
             <aside>
-                <button>
+                <button className='tw-followCard-button'>
                     Seguir
                 </button>
             </aside>
