@@ -6,8 +6,9 @@ export function App() {
     // const profileImageUrl = `https://unavatar.io/${username}`
     const username = 'oscar_varela'
     const name = 'Oscar Varela'
-    const format = (userName) => `@${userName}`
-
+    // const formattedUserName = <span>@manu_hdzz</span>
+    
+    const format = (userName) => '@' + userName
     /* ℹ️ Si en cada uno de los componentes se pone formatUserName={formatUserName()}, se le pasa la ejecución de la función. Lo que se le pasa al componente es el resultado de la ejecución de la función. Lo que se quiere es que se le pase la función y que luego se ejecute en el componente.
     
     ¿se ejecuta la función cada vez que se renderiza el componente, lo cual es ineficiente.?
