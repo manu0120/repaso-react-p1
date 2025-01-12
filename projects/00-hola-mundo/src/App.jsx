@@ -12,14 +12,21 @@ export function App() {
     /* ℹ️ Si en cada uno de los componentes se pone formatUserName={formatUserName()}, se le pasa la ejecución de la función. Lo que se le pasa al componente es el resultado de la ejecución de la función. Lo que se quiere es que se le pase la función y que luego se ejecute en el componente.
     
     ¿se ejecuta la función cada vez que se renderiza el componente, lo cual es ineficiente.?
-
     */
+    const miguel_hernandez = {userName: "miguel_hernandez", isFollowing: false, formatUserName: format}
 
     return (
         <div className='App'>
             <TwitterFollowCard userName={username} name={name} isFollowing={false} formatUserName={format}/>
             <TwitterFollowCard userName="mig_hernandez" name="Miguel Hernandez" isFollowing formatUserName={format}/>
-            <TwitterFollowCard userName="miguel_hernandez" name={name} isFollowing={false} formatUserName={format}/>
+            
+            {/* Uso de REST_OPERATOR (no confundir con el spread operator): ℹ No es recomendable usarlo porque
+            se puede mandar información de más, o porque puede hacer que
+            por temas de optimización el componente se rerenderice sin 
+            necesidad*/}
+            <TwitterFollowCard { ... miguel_hernandez}>
+                <strong>Miguel Hernández</strong>
+            </TwitterFollowCard>
         </div>
     )
 }
