@@ -13,18 +13,19 @@ export function App() {
     
     ¿se ejecuta la función cada vez que se renderiza el componente, lo cual es ineficiente.?
     */
-    const miguel_hernandez = {userName: "miguel_hernandez", isFollowing: false, formatUserName: format}
+    const miguel_hernandez = {userName: "miguel_hernandez", formatUserName: format}
 
     return (
         <div className='App'>
-            <TwitterFollowCard userName={username} name={name} isFollowing={false} formatUserName={format}/>
-            <TwitterFollowCard userName="mig_hernandez" name="Miguel Hernandez" isFollowing formatUserName={format}/>
+            <TwitterFollowCard userName={username} name={name} formatUserName={format}
+                initialIsFollowing={false}/>
+            <TwitterFollowCard userName="mig_hernandez" name="Miguel Hernandez" formatUserName={format} initialIsFollowing/>
             
             {/* Uso de REST_OPERATOR (no confundir con el spread operator): ℹ No es recomendable usarlo porque
             se puede mandar información de más, o porque puede hacer que
             por temas de optimización el componente se rerenderice sin 
             necesidad*/}
-            <TwitterFollowCard { ... miguel_hernandez}>
+            <TwitterFollowCard { ... miguel_hernandez} initialIsFollowing={false}>
                 <strong>Miguel Hernández</strong>
             </TwitterFollowCard>
         </div>
