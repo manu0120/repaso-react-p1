@@ -4,8 +4,8 @@ import { TwitterFollowCard } from './TwitterFollowCard'
 export function App() {
     // const profileImageUrl = 'https://unavatar.io/github/37t?fallback=https://source.boringavatars.com/marble/120/1337_user?colors=264653r,2a9d8f,e9c46a,f4a261,e76f51'
     // const profileImageUrl = `https://unavatar.io/${username}`
-    const username = 'oscar_varela'
-    const name = 'Oscar Varela'
+    const username = 'oscarmiguel'
+    const name = 'Oscar Miguel'
     // const formattedUserName = <span>@manu_hdzz</span>
     
     const format = (userName) => '@' + userName

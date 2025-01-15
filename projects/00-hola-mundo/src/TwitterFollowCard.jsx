@@ -10,13 +10,35 @@ export function TwitterFollowCard ({ children, formatUserName, userName, name, i
     const imageSrc = `https://unavatar.io/${userName}`
 
     // renderizado condicional
-    const text = isFollowing ? 'Siguiendo' : 'Seguir'
+    const textAux = isFollowing ? 'Siguiendo' : 'Seguir'
+
+    const [text, setText] = useState(textAux)
+    
     const buttonClassName = isFollowing ? 'tw-followCard-button is-following' : 'tw-followCard-button'
 
     
 
     const handleClick = () => {
-        setIsFollowing(!isFollowing)
+        // prevIsFollowing es el estado anterior
+        setIsFollowing((prevIsFollowing) => {
+            const newIsFollowing = !prevIsFollowing;
+            setText(newIsFollowing ? 'Siguiendo' : 'Seguir');
+            return newIsFollowing;
+        });
+    }
+    const handleHover = () => {
+        if (isFollowing) {
+            setText('Dejar de seguir')
+        }
+    }
+
+    const handleMouseLeave = () => {
+        if(text === 'Dejar de seguir' && isFollowing) {
+            setText('Siguiendo')
+        }
+        if (isFollowing) {
+            setText('Siguiendo')
+        }
     }
 
     return (
@@ -41,7 +63,9 @@ export function TwitterFollowCard ({ children, formatUserName, userName, name, i
             <aside>
                 {/* Conseguimos que el botón sea dinámico */}
                 <button className={buttonClassName}
-                    onClick={handleClick}>
+                    onClick={handleClick}
+                    onMouseEnter={handleHover}
+                    onMouseLeave={handleMouseLeave}>
                     {text}
                 </button>
             </aside>
