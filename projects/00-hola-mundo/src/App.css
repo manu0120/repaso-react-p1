@@ -46,7 +46,6 @@
     cursor: pointer;
     border: 1px solid #000;
     transition: .3s ease background-color;
-
 }
 
 .tw-followCard-button.is-following {
@@ -57,7 +56,7 @@
 }
 
 .tw-followCard-button:hover {
-    background: #09f;
+   background: #09f; 
 }
 
 
