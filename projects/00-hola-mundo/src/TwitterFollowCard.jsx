@@ -12,6 +12,7 @@ export function TwitterFollowCard ({ children, formatUserName, userName, name, i
     // renderizado condicional
     const textAux = isFollowing ? 'Siguiendo' : 'Seguir'
 
+    // uso de useReducer (otra alternativa): https://chatgpt.com/share/6796bc09-0e40-8011-b037-82d97024e66c 
     const [text, setText] = useState(textAux)
     
     const buttonClassName = isFollowing ? 'tw-followCard-button is-following' : 'tw-followCard-button'
