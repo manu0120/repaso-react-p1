@@ -1,13 +1,38 @@
 import './App.css'
+import {useState} from 'react'
+import {Square} from './components/Square'
+
 
 const TURNS = {
   X: 'X',
   O: 'O',
 }
 
-const board = Array(9).fill(null)
-
 function App() {
+  // uso de useReducer (otra alternativa): https://chatgpt.com/share/6796bc09-0e40-8011-b037-82d97024e66c 
+  const [board, setBoard] = useState(Array(9).fill(null))
+  const [turn, setTurn] = useState(TURNS.X)
+
+  const updateBoard = (index) => {
+    // Si se hace const newBoard = board, no estaríamos haciendo una copia del array, sino que se estaría creando una referencia al array original en memoria. Si se modifica newBoard, se modifica tambié el array original, porque ambos apuntan al mismo lugar en memoria. Se puede hacer una copia profunda con structuredClone()
+
+    /* No es recomendable hacerlo de esta manera:  
+      board[index] = turn
+      setBoard(board)
+
+    Porque NO HAY QUE MUTAR NUNCA NI LAS PROPS NI EL ESTADO, siempre hay que crear una copia del que se esta usando y hacer el cambio en esa copia y luego setearla. Podría haber problemas de renderizado (discrepancia). Los datos del renderizado deben ser nuevos   */
+
+    // no actaulizamos cuadrado si ya tiene algo
+    if (board[index]) return
+
+    const newBoard = [...board] // copia superficial
+    newBoard[index] = turn
+    setBoard(newBoard)
+    
+    const newTurn = turn === TURNS.X ? TURNS.O : TURNS.X
+    setTurn(newTurn)
+  }
+
   return (
     <main className="board">
       <h1>Tic Tac Toe</h1>
@@ -15,14 +40,21 @@ function App() {
         {
           board.map((_, index) => {
             return (
-              <div className='cell' key={index}>
-                <span className='cell__content'>
-                  {index}
-                </span>
-              </div>
+              <Square key={index} index={index} updateBoard={updateBoard}>
+                {board[index]}
+              </Square>
             )
           })
         }
+      </section>
+
+      <section className="turn">
+        <Square className='turn' isSelected={turn === TURNS.X}>
+          {TURNS.X}
+        </Square>
+        <Square className='turn' isSelected={turn === TURNS.O}>
+          {TURNS.O}
+        </Square>
       </section>
     </main>
   )

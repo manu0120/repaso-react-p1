@@ -156,8 +156,10 @@ body {
 }
 
 .square.is-selected {
-  color: #fff;
-  background: #09f;
+  /* color: #fff;
+  background: #09f; */
+  color: red;
+  font-weight: bold;
 }
 
 .winner {
