@@ -58,6 +58,7 @@ function App() {
     setTurn(newTurn)
 
     // revisamos si hay ganador
+    // a checkWinner no le pasamos el board, sino el board que ya hayamos actualizado con el turno, ya que la actualización del estado no es síncrona, y habría que pasar otra vez más para ver que hay ganador
     const newWinner = checkWinner(newBoard)
     if (newWinner) {
       setWinner(newWinner)
