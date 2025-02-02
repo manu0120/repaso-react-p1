@@ -8,10 +8,35 @@ const TURNS = {
   O: 'O',
 }
 
+const WINNER_COMBOS = [
+  [0, 1, 2],
+  [3, 4, 5],
+  [6, 7, 8],
+  [0, 3, 6],
+  [1, 4, 7],
+  [2, 5, 8],
+  [0, 4, 8],
+  [2, 4, 6]
+]
+
 function App() {
   // uso de useReducer (otra alternativa): https://chatgpt.com/share/6796bc09-0e40-8011-b037-82d97024e66c 
   const [board, setBoard] = useState(Array(9).fill(null))
   const [turn, setTurn] = useState(TURNS.X)
+  // null: no hay ganador; false: empate
+  const [winner, setWinner] = useState(null)
+
+  const checkWinner = (boardToCheck) => {
+    for (const combo of WINNER_COMBOS) {
+      const [a, b, c] = combo
+      if (
+        boardToCheck[a] && boardToCheck[a] === boardToCheck[b] && boardToCheck[a] === boardToCheck[c]
+      ) {
+        return boardToCheck[a] // X u O
+      }
+    }
+    return null
+  }
 
   const updateBoard = (index) => {
     // Si se hace const newBoard = board, no estaríamos haciendo una copia del array, sino que se estaría creando una referencia al array original en memoria. Si se modifica newBoard, se modifica tambié el array original, porque ambos apuntan al mismo lugar en memoria. Se puede hacer una copia profunda con structuredClone()
@@ -22,8 +47,8 @@ function App() {
 
     Porque NO HAY QUE MUTAR NUNCA NI LAS PROPS NI EL ESTADO, siempre hay que crear una copia del que se esta usando y hacer el cambio en esa copia y luego setearla. Podría haber problemas de renderizado (discrepancia). Los datos del renderizado deben ser nuevos   */
 
-    // no actaulizamos cuadrado si ya tiene algo
-    if (board[index]) return
+    // no actaulizamos cuadrado si ya tiene algo o si hay ganador
+    if (board[index] || winner) return
 
     const newBoard = [...board] // copia superficial
     newBoard[index] = turn
@@ -31,6 +56,13 @@ function App() {
     
     const newTurn = turn === TURNS.X ? TURNS.O : TURNS.X
     setTurn(newTurn)
+
+    // revisamos si hay ganador
+    const newWinner = checkWinner(newBoard)
+    if (newWinner) {
+      setWinner(newWinner)
+      console.log(winner)
+    }
   }
 
   return (
