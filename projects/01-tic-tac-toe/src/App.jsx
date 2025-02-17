@@ -1,23 +1,11 @@
 import './App.css'
 import {useState} from 'react'
 import {Square} from './components/Square'
-
-
-const TURNS = {
-  X: 'X',
-  O: 'O',
-}
-
-const WINNER_COMBOS = [
-  [0, 1, 2],
-  [3, 4, 5],
-  [6, 7, 8],
-  [0, 3, 6],
-  [1, 4, 7],
-  [2, 5, 8],
-  [0, 4, 8],
-  [2, 4, 6]
-]
+import confetti from 'canvas-confetti'
+import {TURNS} from './constants'
+import { checkWinnerFrom } from './logic/board'
+import {WinnerModal} from './components/WinnerModal'
+import { checkEndGame } from './logic/board'
 
 function App() {
   // uso de useReducer (otra alternativa): https://chatgpt.com/share/6796bc09-0e40-8011-b037-82d97024e66c 
@@ -26,26 +14,10 @@ function App() {
   // null: no hay ganador; false: empate
   const [winner, setWinner] = useState(null)
 
-  const checkWinner = (boardToCheck) => {
-    for (const combo of WINNER_COMBOS) {
-      const [a, b, c] = combo
-      if (
-        boardToCheck[a] && boardToCheck[a] === boardToCheck[b] && boardToCheck[a] === boardToCheck[c]
-      ) {
-        return boardToCheck[a] // X u O
-      }
-    }
-    return null
-  }
-
   const resetGame = () => {
     setBoard(Array(9).fill(null))
     setTurn(TURNS.X)
     setWinner(null)
-  }
-
-  const checkEndGame = (newBoard) => {
-    return newBoard.every((square) => square !== null)
   }
 
   const updateBoard = (index) => {
@@ -69,8 +41,9 @@ function App() {
 
     // revisamos si hay ganador
     // a checkWinner no le pasamos el board, sino el board que ya hayamos actualizado con el turno, ya que la actualización del estado no es síncrona, y habría que pasar otra vez más para ver que hay ganador
-    const newWinner = checkWinner(newBoard)
+    const newWinner = checkWinnerFrom(newBoard)
     if (newWinner) {
+      confetti()
       setWinner(newWinner)
     } else if (checkEndGame(newBoard)) {
       setWinner(false)
@@ -102,29 +75,7 @@ function App() {
         </Square>
       </section>
 
-      {
-        winner !== null && (
-          <section className="winner">
-            <div className="text">
-              <h2>
-                {
-                  winner === false ? 'Empate' : `Ganador: ${winner}`
-                }
-              </h2>
-
-              <header className='win'>
-                {
-                  winner && <Square>{winner}</Square>
-                }
-              </header>
-
-              <footer>
-                <button onClick={resetGame}>Empezar de nuevo</button>
-              </footer>
-            </div>
-          </section>
-        )
-      }
+      <WinnerModal winner={winner} resetGame={resetGame}/>
     </main>
   )
 }
