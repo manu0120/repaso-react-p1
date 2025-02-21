@@ -6,7 +6,15 @@ export const Square = ({children, updateBoard, index, isSelected}) => {
       updateBoard(index)
     }
     return (
-      <div className={className} onClick={handleClick}>
+      // callback: comprueba que se pulse la tecla espaciadora o la tecla enter
+      <div 
+        className={className} 
+        onClick={handleClick} 
+        role="button" 
+        tabIndex="0" 
+        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') handleClick(); }}
+        onTouchStart={handleClick}
+      >
         {children}
       </div>
     )

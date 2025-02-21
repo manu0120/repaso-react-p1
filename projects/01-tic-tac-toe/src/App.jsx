@@ -27,6 +27,9 @@ function App() {
     setBoard(Array(9).fill(null))
     setTurn(TURNS.X)
     setWinner(null)
+
+    localStorage.removeItem('board')
+    localStorage.removeItem('turn')
   }
 
   const updateBoard = (index) => {
@@ -58,6 +61,8 @@ function App() {
     if (newWinner) {
       confetti()
       setWinner(newWinner)
+      localStorage.removeItem('board')
+      localStorage.removeItem('turn')
     } else if (checkEndGame(newBoard)) {
       setWinner(false)
     }
@@ -69,9 +74,11 @@ function App() {
       <button onClick={resetGame}>Resetear juego</button> 
       <section className="game">
         {
-          board.map((_, index) => {
+          board.map((value, index) => {
+            const uniqueKey = `square-${index}`; // Ejemplo de creación de una clave única
             return (
-              <Square key={index} index={index} updateBoard={updateBoard}>
+              // no es recomendable pasar el index como key porque se debe usar un identificador único, y la lista puede cambiar con el tiempo (por ejemplo, si se añaden, eliminan o reordenan elementos)
+              <Square key={uniqueKey} index={index} updateBoard={updateBoard}>
                 {board[index]}
               </Square>
             )
