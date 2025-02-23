@@ -1,5 +1,5 @@
 import './App.css'
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 import {Square} from './components/Square'
 import confetti from 'canvas-confetti'
 import {TURNS} from './constants'
@@ -9,6 +9,7 @@ import {WinnerModal} from './components/WinnerModal'
 function App() {
   // uso de useReducer (otra alternativa): https://chatgpt.com/share/6796bc09-0e40-8011-b037-82d97024e66c
   // nunca se puede usar un useState dentro de un if, ya que van por posiciones fijas en memoria interna
+  // cuando cambia un useState, se vuelve a renderizar el componente
   const [board, setBoard] = useState(() => {
     // se pone dentro porque asi no se accede al localStorage cada vez que se renderiza el componente, por lo que sería mas lento
     const boardFromLocalStorage = localStorage.getItem('board');
@@ -67,6 +68,15 @@ function App() {
       setWinner(false)
     }
   }
+
+  // useEffect: se ejecuta minimo una vez, cuando se monta el componente
+  // se ejecuta cada vez que se renderiza el componente, porque no tiene dependencias. Si se quisiera hacer una solo vez, se puede usar el hook useLayoutEffect o poner []
+  useEffect(() => {
+    console.log('useEffect - mount')
+  }, [])
+  useEffect(() => {
+    console.log('useEffect - mount & winner')
+  }, [winner])
 
   return (
     <main className="board">
