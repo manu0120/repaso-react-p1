@@ -26,4 +26,4 @@ Square.propTypes = {
   updateBoard: PropTypes.func,
   index: PropTypes.number,
   isSelected: PropTypes.bool,
-};
+}

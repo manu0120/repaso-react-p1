@@ -3,7 +3,7 @@ import {useEffect, useState} from 'react'
 import {Square} from './components/Square'
 import confetti from 'canvas-confetti'
 import {TURNS} from './constants'
-import { checkWinnerFrom, checkEndGame } from './logic/board'
+import { checkWinnerFrom, checkEndGame } from "./logic/board"
 import {WinnerModal} from './components/WinnerModal'
 
 function App() {
